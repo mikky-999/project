@@ -1,0 +1,28 @@
+{% extends 'eatexpress/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<section class="service" id="service">
+    <h4>Services</h4>
+    <div class="service-content">
+        <div class="inner-box">
+            <img src="{% static 'images/pics2.jpg' %}" alt="">
+            <h2>Free Delivery</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi Quod Iure Impedit Alias Labore Placeat Magnam Explicabo.</p>
+        </div>
+        <div class="inner-box">
+            <img src="{% static 'images/pics3.jpg' %}" alt="">
+            <h2>Online Payment</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.Excepturi Quod Iure Impedit Alias Labore Placeat Magnam Explicabo.</p>
+        </div>
+        <div class="inner-box">
+            <img src="s-3.png" alt="">
+            <h2>Fresh Food</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.Excepturi Quod Iure Impedit Alias Labore Placeat Magnam Explicabo.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

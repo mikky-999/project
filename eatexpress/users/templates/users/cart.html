@@ -1,0 +1,105 @@
+{% extends 'eatexpress/base.html' %}
+
+
+{% block content %}
+<body>
+	<div class="middle" style="padding: 60px; margin-top: 20px; border: 1px solid #786c28; width: 100%;">
+		<ul class="nav nav-tabs mb-3 custom-navbar" id="nav-tab" role="tablist" style="color: #786c28; border-radius: 12px;">
+            <li class="nav-item"><a href="" class="nav-link active" id="nav-viewitem-tab" data-bs-toggle="tab" data-bs-target="#viewitem" style="color:#000000;" role="tab" aria-controls="nav-viewitem" aria-selected="true">Account</a></li>
+            <li class="nav-item"><a href="" class="nav-link" id="nav-accountmanage-tab" data-bs-toggle="tab" data-bs-target="#accountmanage" style="color:#000000;" role="tab" aria-controls="nav-accountmanage" aria-selected="false">Account Settings</a></li>
+            <li class="nav-item"><a href="" class="nav-link" id="nav-orders-tab" data-bs-toggle="tab" data-bs-target="#orders" style="color:#000000;" role="tab" aria-controls="nav-orders" aria-selected="false">Orders</a></li>
+            <li class="nav-item"><a href="" class="nav-link" id="nav-history-tab" data-bs-toggle="tab" data-bs-target="#history" style="color:#060606;" role="tab" aria-controls="nav-history" aria-selected="false">History</a></li>
+        </ul>
+
+        <!-- Tabs centers -->
+        <div class="tab-content">
+        <div class="tab-pane fade show active" role="tabpanel" id="viewitem">
+            <table class="table">
+            <tbody>
+                <tr>
+                <th scope="row">Customer Name</th>
+                <td>{{ user.profile.name}} {{ user.profile.surname }}</td>
+                </tr>
+                <tr>
+                <th scope="row">Customer's Email</th>
+                <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                <th scope="row">Customer phone Number</th>
+                <td>{{ user.profile.phone_number }}</td>
+                </tr>
+                <tr>  
+                <th scope="row"></th>
+                <td style="font-size: 20px; ">Today is a good day to get something nice for your stomach and something pleasant for your mouth</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <!-- second tab begins -->
+        <div class="tab-pane fade" id="accountmanage" role="tabpanal">
+        <form>
+    <div class="form-group">
+        <label for="nameinput">Name</label>
+        <input type="text" class="form-control" id="nameinput" aria-describedby="emailHelp" placeholder="Name">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="number">Mobile</label>
+        <input type="number" class="form-control" id="number" aria-describedby="emailHelp" placeholder="Number">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-danger">Update</button>
+    </form>
+            
+        </div>
+
+        <!-- third tab panal -->
+        <div class="tab-pane fade" id="orders" role="tabpanel">
+            <table class="table">
+            <th>Order Number</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Cancel Order</th>
+            <tbody>
+                <tr>
+                <td>order</td>
+                <td>Name of item</td>
+                <td>Price</td>
+                <td><button type="submit" class="btn btn-danger">Cancel Order</button></td>
+                </tr>
+            </tbody>
+            
+            </table>
+        </div>
+        <!-- tab 4 container-->
+
+        <div class="tab-pane fade" id="history" role="tabpanel">
+            <table class="table">
+            <th>Date</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Vendor</th>
+            <tbody>
+                <tr>
+                <td>Vendor</td>
+                <td>Name of item</td>
+                <td>Price</td>
+                <td>Date</td>
+                </tr>
+            </tbody>
+            
+            </table>
+            
+        </div>
+
+        </div>
+
+	</div>
+</body>
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% extends 'users/base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <body class="text-center" id="bg" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'user_auth/gg.jpg' %}') no-repeat; height: 100vh; background-size: cover; background-position: center;">
+        <div class="content-section">
+            <form class="form-signin" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <h1 class="h3 mb-3 font-weight-normal">Login to EatExpress</h1>
+                    {% render_field form.username placeholder="username" class+="form-control" %}
+                    {% render_field form.password placeholder="password" class+="form-control" %}
+                    <!-- {{ form|crispy }} -->
+                </div>
+                <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Login</button>
+            </form>
+            <div class="border-top pt-6">
+                <h8 class="text-muted">
+                    New User? <a class="ml-2" style="color: antiquewhite;" href="{% url 'signup' %}">Sign Up Now</a>
+                </h8l>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

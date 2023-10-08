@@ -1,0 +1,169 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'menu.css' %}">
+
+<body class="">
+    
+    <div class="container">
+        <header>
+            <a href="{% url 'home' %}" style="text-decoration: none;"><h1 style="color: #786c28;">←EatExpress</h1></a>
+            <div class="shopping">
+                <img src="{% static 'images/shopping.svg' %}">
+                <span class="quantity">0</span>
+            </div>
+        </header>
+
+        <div class="list">
+          
+        </div>
+    </div>
+    <div class="card">
+        <h1>Cart</h1>
+        <ul class="listCard">
+        </ul>
+        <div class="checkOut">
+            <div class="total">0</div>
+            <div class="closeShopping">Close</div>
+            
+        </div>
+    </div>
+
+    <script>
+
+
+        fetch('/api/dishes/')
+            .then(response=> response.json())
+            .then(data => {
+                products = data;
+                initApp();
+            })
+            .catch(error => {
+                console.error('Error fethching data:', error);
+            });
+
+
+        let openShopping = document.querySelector('.shopping');
+        let closeShopping = document.querySelector('.closeShopping');
+        let list = document.querySelector('.list');
+        let listCard = document.querySelector('.listCard');
+        let body = document.querySelector('body');
+        let total = document.querySelector('.total');
+        let quantity = document.querySelector('.quantity');
+
+        openShopping.addEventListener('click', ()=>{
+            body.classList.add('active');
+        })
+        closeShopping.addEventListener('click', ()=>{
+            body.classList.remove('active');
+        })
+
+
+        let listCards  = [];
+        function initApp(){
+            products.forEach((value, key) =>{
+                let newDiv = document.createElement('div');
+                newDiv.classList.add('item');
+                newDiv.innerHTML = `
+                    <img src="${value.image}">
+                    <div class="title">${value.name}</div>
+                    <div class="price">\₦${value.price.toLocaleString()}</div>
+                    <button onclick="addToCard(${key})">Add To Cart</button>`;
+                list.appendChild(newDiv);
+            })
+        }
+        initApp();
+        const cartDataKeys = [];
+        // Cart array to store data keys of items in the cart
+        function addToCard(key){
+            if(listCards[key] == null){
+                // copy product form list to list card
+                listCards[key] = JSON.parse(JSON.stringify(products[key]));
+                listCards[key].quantity = 1;
+                //Store the data key of the added item in the cart
+                // cartDataKeys.push(key);
+            }
+            reloadCard();
+        }
+        function reloadCard(){
+            listCard.innerHTML = '';
+            let count = 0;
+            let totalPrice = 0;
+            listCards.forEach((value, key)=>{
+                totalPrice = totalPrice + value.price;
+                count = count + value.quantity;
+                if(value != null){
+                    let newDiv = document.createElement('li');
+                    newDiv.innerHTML = `
+                        <div><img src="${value.image}"/></div>
+                        <div>${value.name}</div>
+                        <div>${value.price.toLocaleString()}</div>
+                        <div>
+                            <button onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
+                            <div class="count">${value.quantity}</div>
+                            <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
+                        </div>`;
+                        listCard.appendChild(newDiv);
+                }
+            })
+            total.innerText = `₦${totalPrice.toLocaleString()}`;
+            quantity.innerText = count;
+        }
+        function changeQuantity(key, quantity){
+            if(quantity == 0){
+                delete listCards[key];
+            }else{
+                listCards[key].quantity = quantity;
+                listCards[key].price = quantity * products[key].price;
+            }
+            reloadCard();
+        }
+
+
+        function sendOrderData() {
+            // Create an array to store data of items in the order
+            const orderItems = [];
+            // Loop through the cartDataKeys array to retrieve data keys
+            cartDataKeys.forEach(key => {
+                // Retrieve data for each item using the data key
+                const itemData = products[key];
+
+                // Add the retrieved data to the order items list
+                orderItems.push({
+                    item_name: itemData.name,
+                    quantity: itemData.quantity,
+                    price: itemData.price
+                });
+            });
+            // Create object to send to server with order items
+            const data = {
+                order_items: orderItems
+            };
+
+            // Send the data to the server
+
+            fetch('/add_to_order/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,  // You may need to include the CSRF token
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success (e.g., update the UI)
+                    console.log('Order added successfully');
+                } else {
+                    // Handle errors
+                    console.error('Failed to add order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        }
+
+
+    </script>
+</body>

@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+    <body class="text-center" id="bg" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'user_auth/gg.jpg' %}') no-repeat; height: 100vh; background-size: cover; background-position: center;">
+        <div>
+            <h1>You have been logged out</h1>
+            <div class="border-top pt-6">
+                <h8 class="text-muted">
+                    <a class="ml-2" style="color: antiquewhite;" href="{% url 'login' %}">Login In Again</a>
+                </h8l>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

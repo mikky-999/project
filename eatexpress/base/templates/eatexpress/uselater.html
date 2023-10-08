@@ -1,0 +1,215 @@
+<!-- 
+    Profile.html
+    
+    {% extends 'eatexpress/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <section class="service" id="service">
+        <h4>User Profiles</h4>
+        <h4>{{ user.username }}</h4>
+        <div class="service-content">
+            {% for profile in profile %}
+                <div class="inner-box">
+                    <img src="{% static 'user_auth/Iseg.jpg' %}" alt="">
+                    <h2>{{ profile.date_joined|date:'F d, Y' }}</h2>
+                    <p>{{ profile.address }}.</p>
+                    <button class="btn">{{ profile.name}} {{ profile.surname }}</button>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %} -->
+
+
+
+
+
+    <!-- <div class="container">
+        <div class="card center spacer">
+            <h1 class="title text-center">REGISTER WITH</h1>
+            <div class="social-login">
+                <button class="social-btn">
+                    <img class="icon" alt="gmail icon">
+                    Gmail
+                </button>
+                <button class="social-btn">
+                    <img class="icon" alt="facebook icon">
+                    Facebook
+                </button>
+            </div>
+            <div class="text-center line form-divider">or</div>
+            <form method="POST" action="." class="login-form spacer" id="signup-form">
+                {% csrf_token %}
+                <div class="input-group fas fa-user">
+                    <img class="icon input-icon" src="{% static 'images/profile-user.png' %}" alt="">
+                    {{ form.username}}
+                    <input required name="username" id="username" type="text" class="form-input" placeholder="john doe" maxlength="16" minlength="6">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{% static 'images/envelope.png' %}" alt="">
+                    {{ form.email}}
+                    <input required name="email" id="email" type="text" class="form-input" placeholder="johndoe@gmail.com">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{% static 'images/key.png' %}" alt="">
+                    {{ form.password1 }}
+                    <input required name="password1" id="password1" type="text" class="form-input" placeholder="password" maxlength="22" minlength="8">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{% static 'images/key.png' %}" alt="">
+                    {{ form.password2}}
+                    <input required name="password2" id="password2" type="text" class="form-input" placeholder="confirm password" maxlength="22" minlength="8">
+                </div>
+                <input type="submit" class="submit" value="Signup">
+            </form>
+        </div>
+        
+    </div> -->
+
+
+
+    <!--  For profile update form
+        --------------------------------Home Section----------------------------
+        <div class="content-section">
+            <div class="media">            
+                <img class="rounded-circle account-img" src="{{ user.userprofile.image.url }}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="text-secondary"> {{ user.email }}</p>
+                </div>
+            </div>
+            <form method="POST" class="form-group" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                <fieldset>
+                    <h1 class="h3 mb-3 font-weight-normal">Profile Info</h1>
+                    {{ u_form|crispy }}
+                    {{ p_form|crispy }}
+                </fieldset>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Update</button>
+            </form>
+        </div>
+    </body> -->
+
+
+<!-- For Menu.html
+{% extends 'eatexpress/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <body>
+        
+        <div class="container">
+            <header class="pane">
+                <h1>Your Shopping Cart</h1>
+            </header>
+
+            <div class="list">
+            
+            </div>
+        </div>
+        <div class="card">
+            <h1>Card</h1>
+            <ul class="listCard">
+            </ul>
+            <div class="checkOut">
+                <div class="total">0</div>
+                <div class="closeShopping">Close</div>
+            </div>
+        </div>
+        <div class="popup" style="display: none;"> Your order has been processed</div>
+
+        <script>
+            fetch('/api/dishes/')
+                .then(response=> response.json())
+                .then(data => {
+                    products = data;
+                    initApp();
+                })
+                .catch(error => {
+                    console.error('Error fethching data:', error);
+                });
+            
+            let openShopping = document.querySelector('.shopping');
+            let closeShopping = document.querySelector('.closeShopping');
+            let list = document.querySelector('.list');
+            let listCard = document.querySelector('.listCard');
+            let body = document.querySelector('body');
+            let total = document.querySelector('.total');
+            let quantity = document.querySelector('.quantity');
+
+            openShopping.addEventListener('click', ()=>{
+                body.classList.add('active');
+            })
+            closeShopping.addEventListener('click', ()=>{
+                body.classList.remove('active');
+            })
+
+
+            let listCards  = [];
+            function initApp(){
+                products.forEach((value, key) =>{
+                    let newDiv = document.createElement('div');
+                    newDiv.classList.add('item');
+                    newDiv.innerHTML = `
+                        <img src="${value.image}">
+                        <div class="title">${value.name}</div>
+                        <div class="price">\₦${value.price.toLocaleString()}</div>
+                        <button onclick="addToCard(${key})">Add To Card</button>`;
+                    list.appendChild(newDiv);
+                })
+            }
+            initApp();
+            function addToCard(key){
+                if(listCards[key] == null){
+                    // copy product form list to list card
+                    listCards[key] = JSON.parse(JSON.stringify(products[key]));
+                    listCards[key].quantity = 1;
+                }
+                reloadCard();
+            }
+            function reloadCard(){
+                listCard.innerHTML = '';
+                let count = 0;
+                let totalPrice = 0;
+                listCards.forEach((value, key)=>{
+                    // totalPrice = totalPrice + value.price;
+                    // count = count + value.quantity;
+                    if(value != null){
+                        let newDiv = document.createElement('li');
+                        let itemTotalPrice= value.price * value.quantity;  // Calculate item total price
+                        totalPrice += itemTotalPrice;  // Add to the total price
+                        count += value.quantity
+                        newDiv.innerHTML = `
+                            <div><img src="${value.image}"/></div>
+                            <div>${value.name}</div>
+                            <div>\₦${itemTotalPrice.toLocaleString()}</div>
+                            <div>
+                                <button onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
+                                <div class="count">${value.quantity}</div>
+                                <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
+                            </div>`;
+                            listCard.appendChild(newDiv);
+                    }
+                })
+                total.innerText =`₦${totalPrice.toLocaleString()}`;
+                quantity.innerText = count;
+            }
+            function changeQuantity(key, quantity){
+                if(quantity == 0){
+                    delete listCards[key];
+                }else{
+                    listCards[key].quantity = quantity;
+                    listCards[key].price = quantity * products[key].price;
+                }
+                reloadCard();
+            }
+//         </script>
+     </body>
+ {% endblock content %}
+
+-->

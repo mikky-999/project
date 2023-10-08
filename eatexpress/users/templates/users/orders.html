@@ -1,0 +1,15 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<h1>Your Orders</h1>
+<ul>
+    {% for order in orders %}
+    <li>
+        Order Placed on: {{ order.timestamp }}
+        Quantity: {{ order.quantities }}
+        Products: {{ order.products }}
+        <!-- Display product information, quantities, and order status here -->
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

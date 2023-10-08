@@ -1,0 +1,35 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+  <body class="text-center"  id="bg" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'user_auth/gg.jpg' %}') no-repeat; height: 100vh;
+  background-size: cover; background-position: center;">
+
+    <div class="content-section">
+      <form method="POST" class="form-group">
+        {% csrf_token %}
+        <div class="form-group">
+          <fieldset>
+            <h1 class="h3 mb-3 font-weight-normal">Join Today</h1>
+            {% render_field form.username placeholder="username" class+="form-control" %}
+            {% render_field form.email placeholder="example@email.com" class+="form-control" %}
+            {% render_field form.phone_number placeholder="0810123456" class+="form-control" %}
+            {% render_field form.password1 placeholder="Password" class+="form-control" %}
+            {% render_field form.password2 placeholder="Enter Password again" class+="form-control" %}
+            <!-- {{ form|crispy }} -->
+          </fieldset>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Create Account</button>
+      </form>
+      <div class="border-top pt-6">
+        <h8 class="text-muted" style="color: antiquewhite;">
+          Already Have An Account? <a class="ml-1" style="color: antiquewhite;" href="{% url 'login' %}">Sign In</a>
+        </h8l>
+      </div>
+    </div>
+  </body>
+{% endblock content %}
